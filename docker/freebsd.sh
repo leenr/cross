@@ -143,11 +143,12 @@ base_release=$(latest_freebsd "${mirror}")
 bsd_url="${mirror}/${FREEBSD_ARCH}/${base_release}-RELEASE"
 
 main() {
-    local binutils=2.40 \
-        gcc=6.4.0 \
+    local binutils=2.43 \
+        gcc=14.2.0 \
         target="${ARCH}-unknown-freebsd${FREEBSD_MAJOR}"
 
     install_packages ca-certificates \
+        bzip2 \
         curl \
         g++ \
         make \
@@ -185,15 +186,16 @@ main() {
     local destdir="/usr/local/${target}"
     cp -r "${td}/freebsd/usr/include" "${destdir}"
     cp -r "${td}/freebsd/lib/"* "${destdir}/lib"
-    cp "${td}/freebsd/usr/lib/libc++.so.1" "${destdir}/lib"
     cp "${td}/freebsd/usr/lib/libc++.a" "${destdir}/lib"
     cp "${td}/freebsd/usr/lib/libcxxrt.a" "${destdir}/lib"
     cp "${td}/freebsd/usr/lib/libcompiler_rt.a" "${destdir}/lib"
     cp "${td}/freebsd/usr/lib"/lib{c,util,m,ssp_nonshared,memstat}.a "${destdir}/lib"
-    cp "${td}/freebsd/usr/lib"/lib{rt,execinfo,procstat}.so.1 "${destdir}/lib"
+    cp "${td}/freebsd/usr/lib"/lib{rt,execinfo,procstat}.so "${destdir}/lib"
     cp "${td}/freebsd/usr/lib"/libmemstat.so.3 "${destdir}/lib"
     cp "${td}/freebsd/usr/lib"/{crt1,Scrt1,crti,crtn}.o "${destdir}/lib"
     cp "${td}/freebsd/usr/lib"/libkvm.a "${destdir}/lib"
+
+    echo "GROUP ( ${destdir}/lib/libc++.so.1 ${destdir}/lib/libcxxrt.so )"
 
     local lib=
     local base=
@@ -227,6 +229,7 @@ main() {
         --disable-libssp \
         --disable-libvtv \
         --disable-lto \
+        --disable-multilib \
         --disable-nls \
         --enable-languages=c,c++,fortran \
         --target="${target}"

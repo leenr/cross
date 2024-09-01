@@ -12,7 +12,7 @@ set -euo pipefail
 
 case "${FREEBSD_ARCH}" in
     arm64) # extras mirrors are under https://pkg.freebsd.org/
-        FREEBSD_ARCH=aarch64 #  https://pkg.freebsd.org/FreeBSD:13:aarch64/
+        FREEBSD_ARCH=aarch64 #  https://pkg.freebsd.org/FreeBSD:14:aarch64/
         ;;
 esac
 
@@ -21,7 +21,8 @@ main() {
         curl \
         dnsutils \
         jq \
-        xz-utils
+        xz-utils \
+        zstd
 
     local url=
     url=$(fetch_best_freebsd_mirror)

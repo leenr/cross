@@ -16,7 +16,7 @@ main() {
     sh rustup-init.sh -y --no-modify-path --profile minimal
     rm rustup-init.sh
 
-    PATH="${CARGO_HOME}/bin:${PATH}" cargo install xargo --root /usr/local
+    PATH="${CARGO_HOME}/bin:${PATH}" cargo install bindgen-cli xargo --root /usr/local
 
     rm -r "${RUSTUP_HOME}" "${CARGO_HOME}"
 

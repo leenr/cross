@@ -35,6 +35,7 @@ if_centos install_packages \
     pkgconfig
 
 if_ubuntu install_packages \
+    clang \
     g++ \
     gfortran \
     libc6-dev \
